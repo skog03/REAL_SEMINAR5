@@ -17,133 +17,110 @@ import lv.venta.service.IProductCRUDService;
 @Controller
 @RequestMapping("/product/crud")
 public class ProductCRUDController {
-	
-	
+
 	@Autowired
 	private IProductCRUDService productCRUDservice;
-	
-	
-	@GetMapping("/all") //localhost:8080/product/crud/all
-	public String getProductCrudAll(Model model) {
-		
-	try
-	{
-		ArrayList<Product> result = productCRUDservice.retrieveAll();
-		model.addAttribute("mypackage", result);
-		return "show-all-product-page";//will show this html page in the web browser with mypackage data
-	}
-	catch (Exception e) {
-		model.addAttribute("mypackage", e.getMessage());
-		return "error-page";//will show error-page.html page with exception message
-	}
-		
-	}
-	
-	
-	
 
-	@GetMapping("/all/{id}")//localhost:8080/product/crud/all/1
-	public String getProductCrudById(@PathVariable("id")int id, Model model) {
-		
-		try
-		{
-			Product result = productCRUDservice.retrieveById(id);
-			model.addAttribute("mypackage", result);
-			return "show-one-product-page";
-		}
-		catch (Exception e) {
-			model.addAttribute("mypackage", e.getMessage());
-			return "error-page";//will show error-page.html page with exception message
-		}
-	}
-	
-	
-	@GetMapping("/one")//localhost:8080/product/crud/one?id=1
-	public String getProductCrudByIdWithQuestionmark(@RequestParam("id")int id, Model model) {
-		
-		try
-		{
-			Product result = productCRUDservice.retrieveById(id);
-			model.addAttribute("mypackage", result);
-			return "show-one-product-page";
-		}
-		catch (Exception e) {
-			model.addAttribute("mypackage", e.getMessage());
-			return "error-page";//will show error-page.html page with exception message
-		}
-	}
-	
-	
-	@GetMapping("/create") //localhost:8080/product/crud/create
-	public String getProductCRUDCreate(Model model) {
-		model.addAttribute("product", new Product());
-		return "create-product-page";//will show reate-product-page.html page with default product
-	}
-	
-	@PostMapping("/create")
-	public String postproductCRUDCreate(Product product, Model model)
-	{
+	@GetMapping("/all") // localhost:8080/product/crud/all
+	public String getProductCrudAll(Model model) {
+
 		try {
-			productCRUDservice.create(product.getTitle(), product.getDescription(),
-					product.getPrice(), product.getQuantity());
-			return "redirect:/product/crud/all";//the endpoint localhost:8080/product/crud/all will be called
-			
+			ArrayList<Product> result = productCRUDservice.retrieveAll();
+			model.addAttribute("mypackage", result);
+			return "show-all-product-page";// will show this html page in the web browser with mypackage data
 		} catch (Exception e) {
 			model.addAttribute("mypackage", e.getMessage());
-			return "error-page";//will show error-page.html page with exception message
+			return "error-page";// will show error-page.html page with exception message
 		}
-		
+
 	}
-	
-	
-	@GetMapping("/update/{id}")  //localhost:8080/product/crud/update/1
-	public String getproductCRUDCUpdateById(@PathVariable("id") int id, Model model)
-	{
+
+	@GetMapping("/all/{id}") // localhost:8080/product/crud/all/1
+	public String getProductCrudById(@PathVariable("id") int id, Model model) {
+
+		try {
+			Product result = productCRUDservice.retrieveById(id);
+			model.addAttribute("mypackage", result);
+			return "show-one-product-page";
+		} catch (Exception e) {
+			model.addAttribute("mypackage", e.getMessage());
+			return "error-page";// will show error-page.html page with exception message
+		}
+	}
+
+	@GetMapping("/one") // localhost:8080/product/crud/one?id=1
+	public String getProductCrudByIdWithQuestionmark(@RequestParam("id") int id, Model model) {
+
+		try {
+			Product result = productCRUDservice.retrieveById(id);
+			model.addAttribute("mypackage", result);
+			return "show-one-product-page";
+		} catch (Exception e) {
+			model.addAttribute("mypackage", e.getMessage());
+			return "error-page";// will show error-page.html page with exception message
+		}
+	}
+
+	@GetMapping("/create") // localhost:8080/product/crud/create
+	public String getProductCRUDCreate(Model model) {
+		model.addAttribute("product", new Product());
+		return "create-product-page";// will show reate-product-page.html page with default product
+	}
+
+	@PostMapping("/create")
+	public String postproductCRUDCreate(Product product, Model model) {
+		try {
+			productCRUDservice.create(product.getTitle(), product.getDescription(), product.getPrice(),
+					product.getQuantity());
+			return "redirect:/product/crud/all";// the endpoint localhost:8080/product/crud/all will be called
+
+		} catch (Exception e) {
+			model.addAttribute("mypackage", e.getMessage());
+			return "error-page";// will show error-page.html page with exception message
+		}
+
+	}
+
+	@GetMapping("/update/{id}") // localhost:8080/product/crud/update/1
+	public String getproductCRUDCUpdateById(@PathVariable("id") int id, Model model) {
 		try {
 			Product productForUpdating = productCRUDservice.retrieveById(id);
 			model.addAttribute("product", productForUpdating);
 			return "update-product-page";
-			
+
 		} catch (Exception e) {
 			model.addAttribute("mypackage", e.getMessage());
-			return "error-page";//will show error-page.html page with exception message
+			return "error-page";// will show error-page.html page with exception message
 		}
-		
+
 	}
-	
-	@PostMapping("/update/{id}")  //localhost:8080/product/crud/update/1
-	public String postProductCRUDCUpdateById(@PathVariable("id") int id, Product product, Model model)
-	{
+
+	@PostMapping("/update/{id}") // localhost:8080/product/crud/update/1
+	public String postProductCRUDCUpdateById(@PathVariable("id") int id, Product product, Model model) {
 		try {
-			productCRUDservice.updateById(id, product.getTitle(), product.getDescription(), product.getPrice(), product.getQuantity());
-			return "redirect:/product/crud/all/"+id;
+			productCRUDservice.updateById(id, product.getTitle(), product.getDescription(), product.getPrice(),
+					product.getQuantity());
+			return "redirect:/product/crud/all/" + id;
 		} catch (Exception e) {
 			model.addAttribute("mypackage", e.getMessage());
-			return "error-page";//will show error-page.html page with exception message
+			return "error-page";// will show error-page.html page with exception message
 		}
-		
-		
+
 	}
-	
-	
-	
-	@GetMapping("/delete/{id}")  //localhost:8080/product/crud/delete/2
-	public String getproductCRUDDeleteByUpdate(@PathVariable("id") int id, Model model)
-	{
+
+	@GetMapping("/delete/{id}") // localhost:8080/product/crud/delete/2
+	public String getproductCRUDDeleteByUpdate(@PathVariable("id") int id, Model model) {
 		try {
 			productCRUDservice.deleteById(id);
-			
+
 			ArrayList<Product> result = productCRUDservice.retrieveAll();
 			model.addAttribute("mypackage", result);
-			return "show-all-product-page";//will show this html page in the web browser with mypackage data
+			return "show-all-product-page";// will show this html page in the web browser with mypackage data
 		} catch (Exception e) {
 			model.addAttribute("mypackage", e.getMessage());
-			return "error-page";//will show error-page.html page with exception message
+			return "error-page";// will show error-page.html page with exception message
 		}
-		
-		
+
 	}
-	
-	
 
 }
