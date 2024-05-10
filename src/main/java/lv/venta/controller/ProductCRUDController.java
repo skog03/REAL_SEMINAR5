@@ -16,6 +16,11 @@ import jakarta.validation.Valid;
 import lv.venta.model.Product;
 import lv.venta.service.IProductCRUDService;
 
+//TODO
+//finiish Servise implementation: filterByQuantityThreshold afn filterByPriceBetween
+//create controller class with 2 get mapping controllers and call both service functions
+//test it
+
 @Controller
 @RequestMapping("/product/crud")
 public class ProductCRUDController {
@@ -71,12 +76,13 @@ public class ProductCRUDController {
 
 	@PostMapping("/create")
 	public String postproductCRUDCreate(@Valid Product product, BindingResult result, Model model) {
-		if (result.hasErrors()) {
-			return "create-product-page"; // thos will show the same html page
-		} else {
-
+		if(result.hasErrors()) {
+			return "create-product-page";  //thos will show the same html page
 		}
-
+		else {
+			
+		}
+		
 		try {
 			productCRUDservice.create(product.getTitle(), product.getDescription(), product.getPrice(),
 					product.getQuantity());
@@ -104,7 +110,14 @@ public class ProductCRUDController {
 	}
 
 	@PostMapping("/update/{id}") // localhost:8080/product/crud/update/1
-	public String postProductCRUDCUpdateById(@PathVariable("id") int id, Product product, Model model) {
+	public String postProductCRUDCUpdateById(@PathVariable("id") int id, @Valid Product product, BindingResult result, Model model) {
+		
+		if(result.hasErrors()) {
+			return "create-product-page";  //thos will show the same html page
+		}
+		else {
+			
+		}
 		try {
 			productCRUDservice.updateById(id, product.getTitle(), product.getDescription(), product.getPrice(),
 					product.getQuantity());
